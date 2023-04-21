@@ -254,6 +254,7 @@ namespace GeradorTimes
                     Jogador jogador = lstBxJogEspera.SelectedItem as Jogador;
                     Program.Jogadores.ComputarPartidaJogador(jogador.Nome);
                     AtualizaJogadoresEspera();
+                    lstBxJogEspera.SelectedItem = jogador;
                 }
                 catch { }
             }
@@ -268,6 +269,7 @@ namespace GeradorTimes
                     Jogador jogador = lstBxJogEspera.SelectedItem as Jogador;
                     Program.Jogadores.RemoverPartidaJogador(jogador.Nome);
                     AtualizaJogadoresEspera();
+                    lstBxJogEspera.SelectedItem = jogador;
                 }
                 catch { }
             }
@@ -308,6 +310,12 @@ namespace GeradorTimes
                         AtualizaJogadoresEspera();
                         AtualizaLabelQtdeJogadores();
                         AtualizarListaTimes();
+
+                        lstBxJogEspera.SelectedIndex = -1;
+                        btnComputarPartida.Enabled = false;
+                        btnRemoverPartida.Enabled = false;
+                        btnAddTimeMenorJogador.Enabled = false;
+                        btnRemoverJogador.Enabled = false;
                     }
                 }
                 catch { }
@@ -325,6 +333,11 @@ namespace GeradorTimes
                     AtualizaJogadoresEspera();
                     AtualizaLabelQtdeJogadores();
                     AtualizarListaTimes();
+                    lstBxJogEspera.SelectedIndex = -1;
+                    btnComputarPartida.Enabled = false;
+                    btnRemoverPartida.Enabled = false;
+                    btnAddTimeMenorJogador.Enabled = false;
+                    btnRemoverJogador.Enabled = false;
                 }
                 catch { }
             }
@@ -339,13 +352,43 @@ namespace GeradorTimes
             AtualizarListaTimes();
         }
 
+        bool mouseDown = false;
+
         private void LstBxJogEspera_MouseDown(object sender, MouseEventArgs e)
         {
-            int indexOfItem = lstBxJogEspera.IndexFromPoint(e.X, e.Y);
-            if (indexOfItem >= 0 && indexOfItem < lstBxJogEspera.Items.Count)  // check we clicked down on a string
+            mouseDown = true;
+        }
+
+        private void LstBxJogEspera_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
+            if (lstBxJogEspera.SelectedItem != null)
             {
-                Jogador jogador = lstBxJogEspera.Items[indexOfItem] as Jogador;
-                lstBxJogEspera.DoDragDrop(jogador.Nome, DragDropEffects.Copy);
+                btnComputarPartida.Enabled = true;
+                btnRemoverPartida.Enabled = true;
+                btnAddTimeMenorJogador.Enabled = true;
+                btnRemoverJogador.Enabled = true;
+            }
+            else
+            {
+                btnComputarPartida.Enabled = false;
+                btnRemoverPartida.Enabled = false;
+                btnAddTimeMenorJogador.Enabled = false;
+                btnRemoverJogador.Enabled = false;
+            }
+        }
+
+        private void LstBxJogEspera_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseDown)
+            {
+                mouseDown = false;
+                int indexOfItem = lstBxJogEspera.IndexFromPoint(e.X, e.Y);
+                if (indexOfItem >= 0 && indexOfItem < lstBxJogEspera.Items.Count)  // check we clicked down on a string
+                {
+                    Jogador jogador = lstBxJogEspera.Items[indexOfItem] as Jogador;
+                    lstBxJogEspera.DoDragDrop(jogador.Nome, DragDropEffects.Copy);
+                }
             }
         }
 
@@ -387,6 +430,14 @@ namespace GeradorTimes
                 AtualizaJogadoresEspera();
                 AtualizarListaTimes();
             }
+        }
+
+        private void LstBxJogEspera_ControlRemoved(object sender, ControlEventArgs e)
+        {
+            btnComputarPartida.Enabled = false;
+            btnRemoverPartida.Enabled = false;
+            btnAddTimeMenorJogador.Enabled = false;
+            btnRemoverJogador.Enabled = false;
         }
     }
 }

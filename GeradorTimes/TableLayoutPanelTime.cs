@@ -47,6 +47,8 @@ namespace GeradorTimes
             this.RowCount = 3;
             this.ListaTime.KeyDown += ListaTime_KeyDown;
             this.ListaTime.MouseDown += ListaTime_MouseDown;
+            this.ListaTime.MouseUp += ListaTime_MouseUp;
+            this.ListaTime.MouseMove += ListaTime_MouseMove;
             this.ListaTime.DragEnter += ListaTime_DragEnter;
             this.ListaTime.DragOver += ListaTime_DragOver;
             this.ListaTime.DragDrop += ListaTime_DragDrop;
@@ -108,13 +110,29 @@ namespace GeradorTimes
             }
         }
 
+        bool mouseDown = false;
+
         private void ListaTime_MouseDown(object sender, MouseEventArgs e)
         {
-            int indexOfItem = this.ListaTime.IndexFromPoint(e.X, e.Y);
-            if (indexOfItem >= 0 && indexOfItem < this.ListaTime.Items.Count)  // check we clicked down on a string
+            mouseDown = true;
+        }
+
+        private void ListaTime_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
+        }
+
+        private void ListaTime_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseDown)
             {
-                Jogador jogador = this.ListaTime.Items[indexOfItem] as Jogador;
-                this.ListaTime.DoDragDrop(jogador.Nome, DragDropEffects.Copy);
+                mouseDown = false;
+                int indexOfItem = this.ListaTime.IndexFromPoint(e.X, e.Y);
+                if (indexOfItem >= 0 && indexOfItem < this.ListaTime.Items.Count)  // check we clicked down on a string
+                {
+                    Jogador jogador = this.ListaTime.Items[indexOfItem] as Jogador;
+                    this.ListaTime.DoDragDrop(jogador.Nome, DragDropEffects.Copy);
+                }
             }
         }
 

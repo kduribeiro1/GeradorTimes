@@ -333,11 +333,14 @@
             this.lstBxJogEspera.TabIndex = 1;
             this.lstBxJogEspera.ValueMember = "Nome";
             this.lstBxJogEspera.SelectedIndexChanged += new System.EventHandler(this.LstBxJogEspera_SelectedIndexChanged);
+            this.lstBxJogEspera.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.LstBxJogEspera_ControlRemoved);
             this.lstBxJogEspera.DragDrop += new System.Windows.Forms.DragEventHandler(this.LstBxJogEspera_DragDrop);
             this.lstBxJogEspera.DragEnter += new System.Windows.Forms.DragEventHandler(this.LstBxJogEspera_DragEnter);
             this.lstBxJogEspera.DragOver += new System.Windows.Forms.DragEventHandler(this.LstBxJogEspera_DragOver);
             this.lstBxJogEspera.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LstBxJogEspera_KeyDown);
             this.lstBxJogEspera.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LstBxJogEspera_MouseDown);
+            this.lstBxJogEspera.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LstBxJogEspera_MouseMove);
+            this.lstBxJogEspera.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LstBxJogEspera_MouseUp);
             // 
             // tableLayoutPanel5
             // 
